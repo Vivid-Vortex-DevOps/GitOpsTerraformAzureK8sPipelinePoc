@@ -54,7 +54,6 @@ Never fabricate:
 * Secrets
 * Passwords
 * URLs
-* JFrog Credentials
 * Bitwarden Credentials
 
 If information is missing:
@@ -226,7 +225,7 @@ Container Platform:
 
 Container Registry:
 
-* JFrog Artifactory
+* GitHub Container Registry (GHCR)
 
 Secrets:
 
@@ -495,7 +494,7 @@ The platform should demonstrate:
 * GitHub Actions
 * AKS
 * PostgreSQL
-* JFrog
+* GitHub Container Registry (GHCR)
 * Bitwarden
 * Azure Key Vault
 * ArgoCD
@@ -777,7 +776,7 @@ go-crud-service
 
 springboot-crud-service
 
-Images should be pushed to JFrog.
+Images should be pushed to GitHub Container Registry (GHCR).
 
 Image tags should support:
 
@@ -943,7 +942,7 @@ The following assets remain:
 
 * Git Repositories
 * Bitwarden Secrets
-* JFrog Account
+* GitHub Account (GHCR images)
 
 The platform should be fully recoverable by:
 
@@ -1285,12 +1284,6 @@ AZURE_SUBSCRIPTION_ID
 
 AZURE_TENANT_ID
 
-JFROG_URL
-
-JFROG_USERNAME
-
-JFROG_ACCESS_TOKEN
-
 ---
 
 # BITWARDEN REQUIREMENTS
@@ -1489,25 +1482,21 @@ Maintain clear separation.
 
 ---
 
-# JFROG INTEGRATION
+# GHCR (CONTAINER REGISTRY)
 
-JFrog Instance:
+Registry:
 
-https://trial7o1gnn.jfrog.io
+ghcr.io
 
 Authentication:
 
-JFROG_URL
+GITHUB_TOKEN (automatically injected by GitHub Actions — no separate credentials required)
 
-JFROG_USERNAME
-
-JFROG_ACCESS_TOKEN
-
-from Bitwarden.
+Add packages: write permission to the build job.
 
 ---
 
-# JFROG RESPONSIBILITIES
+# GHCR RESPONSIBILITIES
 
 Store:
 
@@ -1619,7 +1608,7 @@ Managed Identity
 
 RBAC
 
-JFrog Authentication
+GHCR Authentication
 
 Container Security
 
@@ -1757,23 +1746,19 @@ Pipeline:
 3. Package
 4. Docker Build
 5. Docker Scan
-6. Push To JFrog
+6. Push To GHCR
 
 ---
 
-# JFROG PUBLISHING
+# GHCR PUBLISHING
 
-Authentication must come from Bitwarden.
+Authentication uses GITHUB_TOKEN.
 
-Retrieve:
+No separate credentials required.
 
-JFROG_URL
+GITHUB_TOKEN is automatically injected by GitHub Actions.
 
-JFROG_USERNAME
-
-JFROG_ACCESS_TOKEN
-
-at runtime.
+Add packages: write permission to the build job.
 
 Never hardcode credentials.
 
@@ -2135,7 +2120,7 @@ Developer
 → CI Validation
 → Merge To Main
 → Docker Build
-→ JFrog
+→ GHCR
 → Git Commit
 → ArgoCD Sync
 → AKS Deployment
@@ -2546,7 +2531,7 @@ Not just how they are deployed.
 A successful deployment should demonstrate:
 
 GitHub Actions
-→ JFrog
+→ GHCR
 → Git Commit
 → ArgoCD
 → AKS
@@ -3203,7 +3188,7 @@ Git Repositories
 
 Bitwarden Secrets
 
-JFrog Repository
+GitHub Account (GHCR images)
 
 Documentation
 
@@ -3451,7 +3436,7 @@ Git
 
 Bitwarden
 
-JFrog
+GitHub (GHCR)
 
 Azure Account
 
@@ -4134,7 +4119,7 @@ ADR-003-use-istio.md
 
 ADR-004-use-bitwarden.md
 
-ADR-005-use-jfrog.md
+ADR-005-use-ghcr.md
 
 ADR-006-use-aks.md
 
@@ -4435,7 +4420,7 @@ Validate Azure Requirements
 
 Validate Bitwarden Requirements
 
-Validate JFrog Requirements
+Validate GHCR Access
 
 Validate GitHub Requirements
 
@@ -4645,7 +4630,7 @@ Build Pipelines
 
 Testing Pipelines
 
-JFrog Publishing
+GHCR Publishing
 
 Terraform Pipelines
 
@@ -4927,7 +4912,7 @@ Terraform provisions the platform.
 
 GitHub Actions build and publish images.
 
-JFrog stores images.
+GHCR stores images.
 
 ArgoCD deploys applications.
 
